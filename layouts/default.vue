@@ -11,10 +11,18 @@ function goTo(route: string): void {
 
 <template>
 <div class="surface-200">
-  <div class="h-4rem bg-primary align-content-center">
-    <Button icon="pi pi-bars" size="large" class="ml-3" @click="visible = true" />
+  <div class="h-4rem bg-primary flex align-items-center">
+    <Button class="ml-3" @click="visible = true" >
+      <i class="pi pi-bars" style="font-size: 2rem" />
+    </Button>
     <label class="ml-3 text-2xl font-semibold">COLLAR LINK</label>
+    <div class="flex-auto"></div>
+    <Button class="mr-3" @click="navigateTo('/perfil')" >
+      <i class="pi pi-user" style="font-size: 2rem" />
+    </Button>
   </div>
+
+
 
   <slot />
 
