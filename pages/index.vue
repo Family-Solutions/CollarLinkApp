@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-content-center mt-6 ">
+    <div class="flex justify-content-center mt-6">
         <Map></Map>
         <Panel header="Header">
             <p class="m-0">
