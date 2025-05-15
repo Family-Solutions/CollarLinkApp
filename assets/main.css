@@ -1,0 +1,7 @@
+@import "/node_modules/primeflex/primeflex.css";
+@import 'primeicons/primeicons.css';
+
+body {
+  padding: 0;
+  margin: 0;
+}
