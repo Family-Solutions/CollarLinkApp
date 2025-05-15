@@ -10,7 +10,7 @@ function goTo(route: string): void {
 
 
 <template>
-<div class="surface-200">
+<div class="surface-200 min-h-screen">
   <div class="h-4rem bg-primary flex align-items-center">
     <Button class="ml-3" @click="visible = true" >
       <i class="pi pi-bars" style="font-size: 2rem" />
