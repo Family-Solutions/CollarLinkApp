@@ -3,14 +3,18 @@ import React from 'react';
 import './Header.css';
 import { useAuth } from '../context/authContext';
 
-const Header = () => {
+// Recibe la propiedad 'toggleSidebar'
+const Header = ({ toggleSidebar }) => {
   const { isAuthenticated, user, logout } = useAuth();
 
   return (
     <header className="app-header">
       <div className="header-left">
-        <button className="menu-button">☰</button>
-        <span className="app-title">CollarLink</span>
+        {/* El botón de menú ahora llama a toggleSidebar */}
+        <button className="menu-button" onClick={toggleSidebar}>
+          ☰
+        </button>
+        <span className="app-title">IoT Pet Tracker</span>
       </div>
       <div className="header-right">
         {isAuthenticated ? (

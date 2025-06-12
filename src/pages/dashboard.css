@@ -1,0 +1,98 @@
+/* src/pages/Dashboard.css */
+
+.dashboard-container {
+  display: flex;
+  /* Por defecto, los elementos se apilarán verticalmente (diseño mobile-first) */
+  flex-direction: column;
+  gap: 1.5rem; /* Espacio entre el mapa y las tarjetas en vista móvil */
+  padding: 1rem; /* Menos padding en móvil */
+  height: auto; /* La altura se ajustará al contenido en móvil */
+}
+
+.map-wrapper {
+  /* En móvil, el mapa necesita una altura fija para ser visible */
+  height: 60vh; /* 60% de la altura de la pantalla del dispositivo */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Espacio entre las dos tarjetas */
+  width: 100%;
+}
+
+.info-card {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.info-card h3 {
+  margin-top: 0;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.info-card-content {
+  color: #666;
+  font-style: italic;
+}
+
+.info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.info-list li {
+  padding: 0.5rem 0;
+  font-weight: 500;
+}
+
+.leaflet-container {
+  height: 95%;
+  width: 100%;
+  border-radius: var(--border-radius);
+  z-index: 0;
+}
+
+/* --- Media Query para pantallas más grandes (Escritorio) --- */
+/* 'min-width: 768px' significa: "Aplica estos estilos si la pantalla
+   tiene 768px de ancho o más". 768px es un punto de quiebre común para tablets. */
+@media (min-width: 768px) {
+  .dashboard-container {
+    /* Volvemos al layout de columnas lado a lado */
+    flex-direction: row;
+    gap: 2rem;
+    padding: 1rem;
+    /* Ajustamos la altura para que ocupe el espacio disponible bajo el header */
+    height: calc(100vh - 100px); 
+  }
+
+  .map-wrapper {
+    flex: 3; /* El mapa ocupa 3 partes del espacio */
+    height: 100%; /* Ocupa toda la altura del contenedor padre */
+  }
+
+  .sidebar {
+    flex: 1; /* Las tarjetas ocupan 1 parte del espacio */
+    height: 100%; /* Ocupa toda la altura del contenedor padre */
+  }
+}
+
+/* Opcional: un punto de quiebre más grande para diseños anchos */
+@media (min-width: 1024px) {
+    .map-wrapper {
+        flex: 2.5; /* Damos un poco más de espacio relativo a las tarjetas en pantallas muy anchas */
+    }
+    .sidebar {
+        flex: 1;
+    }
+}

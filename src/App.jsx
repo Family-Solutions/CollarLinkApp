@@ -2,57 +2,39 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/authContext';
-import Header from './components/header';
-import Login from './pages/login';
-import Register from './pages/register';
+
+import MainLayout from './components/mainlayout';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import Dashboard from './pages/dashboard';
 
-// Componente para proteger rutas
-const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated } = useAuth();
-  return isAuthenticated ? children : <Navigate to="/login" />;
-};
 
-// Componente para rutas públicas (si ya estás logueado, te redirige al dashboard)
-const PublicRoute = ({ children }) => {
+// Componente para proteger el Layout principal
+const ProtectedLayout = () => {
   const { isAuthenticated } = useAuth();
-  return !isAuthenticated ? children : <Navigate to="/dashboard" />;
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+  return <MainLayout />;
 };
-
-function AppContent() {
-  return (
-    <>
-      <Header />
-      <main>
-        <Routes>
-          <Route 
-            path="/login" 
-            element={<PublicRoute><Login /></PublicRoute>} 
-          />
-          <Route 
-            path="/register" 
-            element={<PublicRoute><Register /></PublicRoute>} 
-          />
-          <Route 
-            path="/dashboard" 
-            element={<ProtectedRoute><Dashboard /></ProtectedRoute>} 
-          />
-          {/* Redirige la ruta raíz a login o dashboard según el estado de auth */}
-          <Route 
-            path="/" 
-            element={<Navigate to="/dashboard" />} 
-          />
-        </Routes>
-      </main>
-    </>
-  );
-}
 
 function App() {
   return (
     <Router>
       <AuthProvider>
-        <AppContent />
+        <Routes>
+          {/* Rutas públicas (Login y Register) */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
+          {/* Rutas protegidas que usan el MainLayout */}
+          <Route element={<ProtectedLayout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
+
+          {/* Redirección por defecto */}
+          <Route path="/" element={<Navigate to="/dashboard" />} />
+        </Routes>
       </AuthProvider>
     </Router>
   );
