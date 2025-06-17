@@ -4,11 +4,14 @@ import { Link, useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
 // Importando los iconos que usaremos
-import { FaMapMarkedAlt, FaPaw } from 'react-icons/fa';
+import { FaMapMarkedAlt, FaPaw} from 'react-icons/fa';
+import { RiGpsLine } from 'react-icons/ri';
 
 const navItems = [
-  { to: '/dashboard', icon: <FaMapMarkedAlt />, text: 'Localización' }
-];
+  { to: '/dashboard', icon: <FaMapMarkedAlt />, text: 'Localización' },
+  { to: '/mascotas', icon: <FaPaw />, text: 'Mascotas' },
+  { to: '/dispositivos', icon: <RiGpsLine />, text: 'Dispositivos' },
+];  
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();

@@ -7,6 +7,8 @@ import MainLayout from './components/mainlayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/dashboard';
+import Mascotas from './pages/mascotas';
+import Dispositivos from './pages/dispositivos';
 
 
 // Componente para proteger el Layout principal
@@ -30,6 +32,8 @@ function App() {
           {/* Rutas protegidas que usan el MainLayout */}
           <Route element={<ProtectedLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/mascotas" element={<Mascotas />} />
+            <Route path="/dispositivos" element={<Dispositivos />} />
           </Route>
 
           {/* Redirección por defecto */}

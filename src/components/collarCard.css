@@ -1,0 +1,44 @@
+.collar-card {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+  padding: 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.collar-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.collar-card-header {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.collar-card-icon {
+  color: var(--primary-green);
+  font-size: 2rem;
+  margin-right: 1rem;
+}
+
+.collar-card-serial {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--dark-text);
+  word-break: break-all;
+}
+
+.collar-card-body p {
+  margin: 0.5rem 0;
+  color: #555;
+}
+
+.collar-card-body p strong {
+  color: #333;
+}
