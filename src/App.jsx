@@ -1,7 +1,7 @@
 // src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/authContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 
 import MainLayout from './components/mainlayout';
 import Login from './pages/Login';
@@ -9,6 +9,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/dashboard';
 import Mascotas from './pages/mascotas';
 import Dispositivos from './pages/dispositivos';
+import Geocercas from './pages/geocercas';
 
 
 // Componente para proteger el Layout principal
@@ -34,6 +35,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/mascotas" element={<Mascotas />} />
             <Route path="/dispositivos" element={<Dispositivos />} />
+            <Route path="/geocercas" element={<Geocercas />} />
           </Route>
 
           {/* Redirección por defecto */}

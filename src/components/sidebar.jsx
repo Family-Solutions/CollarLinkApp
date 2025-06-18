@@ -11,6 +11,7 @@ const navItems = [
   { to: '/dashboard', icon: <FaMapMarkedAlt />, text: 'Localización' },
   { to: '/mascotas', icon: <FaPaw />, text: 'Mascotas' },
   { to: '/dispositivos', icon: <RiGpsLine />, text: 'Dispositivos' },
+  { to: '/geocercas', icon: <RiGpsLine />, text: 'Geocercas' },
 ];  
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {

@@ -1,0 +1,111 @@
+.geofence-page-container {
+  display: flex;
+  flex-direction: column; 
+  height: calc(100vh - 80px); 
+  padding: 1.5rem;
+  gap: 1.5rem;
+}
+
+.geofence-editor {
+  display: flex;
+  flex-direction: column; 
+  gap: 1.5rem;
+  flex-grow: 1;
+}
+
+.geofence-map-container {
+  height: 50vh; 
+  width: 100%;
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+}
+
+.geofence-form-container {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+}
+
+.geofence-form-container h2 {
+  margin-top: 0;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+}
+
+.form-field {
+  margin-bottom: 1rem;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-field input, .form-field button {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.form-field input[type="range"] {
+  padding: 0; 
+}
+
+.radius-display {
+  text-align: center;
+  font-weight: bold;
+  color: var(--primary-green);
+  margin-top: 0.5rem;
+}
+
+.submit-btn {
+  background-color: var(--primary-green);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  margin: 1rem auto 0;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: block;
+  width: fit-content;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #22c55e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.submit-btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.submit-btn:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Estilos para Desktop */
+@media (min-width: 768px) {
+  .geofence-page-container {
+    flex-direction: row;
+  }
+  .geofence-map-container {
+    height: 100%;
+    flex: 3;
+  }
+  .geofence-form-container {
+    flex: 1;
+  }
+}
