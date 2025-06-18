@@ -1,44 +1,89 @@
-// src/pages/Dashboard.jsx
+// src/pages/Dashboard.jsx - VERSIÓN ACTUALIZADA
+
 import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../context/authContext';
+import { useAuth } from '../context/AuthContext';
 
-// 1. Importaciones de Leaflet y react-leaflet
+// Importamos los servicios que necesitamos
+import petService from '../api/petService';
+import collarService from '../api/collarService';
+
+// Importaciones de Leaflet y su CSS
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css'; // ¡MUY IMPORTANTE! Importa los estilos de Leaflet
+import 'leaflet/dist/leaflet.css';
 
-// 2. Importamos nuestro nuevo CSS
+// Importamos el CSS del Dashboard
 import './Dashboard.css';
 
 const Dashboard = () => {
-  const { isAuthenticated } = useAuth();
+  const { user, isAuthenticated } = useAuth();
 
-  // Estados para guardar los datos (por ahora vacíos)
+  // Estados para guardar los datos
   const [mascotas, setMascotas] = useState([]);
   const [dispositivos, setDispositivos] = useState([]);
+  
+  // Estados para controlar la carga y errores de la UI
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Coordenadas de Lima, Perú
   const limaPosition = [-12.046374, -77.042793];
 
-  // TODO: En un futuro, aquí harás la llamada a tu backend para obtener las mascotas y dispositivos
   useEffect(() => {
-    // Ejemplo de cómo se vería la llamada a la API
-    // const fetchPetData = async () => {
-    //   try {
-    //     // const petsResponse = await petService.getPetsByUserId(user.id);
-    //     // setMascotas(petsResponse.data);
-    //     // const devicesResponse = await deviceService.getDevicesByUserId(user.id);
-    //     // setDispositivos(devicesResponse.data);
-    //   } catch (error) {
-    //     console.error("Error fetching data", error);
-    //   }
-    // };
-    // fetchPetData();
-  }, []); // El array vacío significa que este efecto se ejecuta una sola vez
+    // Si no hay un usuario logueado, no hacemos nada.
+    if (!user) {
+        setIsLoading(false);
+        return;
+    }
+
+    const fetchData = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        // Hacemos las dos llamadas a la API en paralelo para más eficiencia
+        const [petsResponse, devicesResponse] = await Promise.all([
+          petService.getPetsByUsername(user.username),
+          collarService.getCollarsByUsername(user.username)
+        ]);
+        
+        // Guardamos los datos en sus respectivos estados
+        setMascotas(petsResponse.data || []);
+        setDispositivos(devicesResponse.data || []);
+
+      } catch (err) {
+        console.error("Error fetching dashboard data:", err);
+        setError("No se pudieron cargar los datos del panel. Inténtalo de nuevo más tarde.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchData();
+  }, [user]); // Este efecto se ejecuta cada vez que el objeto 'user' cambia.
 
   if (!isAuthenticated) {
     return <Navigate to="/login" />;
   }
+
+  // Componente pequeño para mostrar la lista en las tarjetas
+  const InfoList = ({ title, items, renderItem, emptyMessage }) => (
+    <div className="info-card">
+        <h3>{title}</h3>
+        <div className="info-card-content">
+            {isLoading ? (
+                <p>Cargando...</p>
+            ) : error ? (
+                <p className="text-error">Error al cargar.</p>
+            ) : items.length > 0 ? (
+                <ul className="info-list">
+                    {items.map(renderItem)}
+                </ul>
+            ) : (
+                <p>{emptyMessage}</p>
+            )}
+        </div>
+    </div>
+  );
 
   return (
     <div className="dashboard-container">
@@ -49,10 +94,10 @@ const Dashboard = () => {
             attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          {/* Aquí podrás mapear las ubicaciones de tus mascotas para crear marcadores */}
+          {/* TODO: Próximamente, aquí mapearemos las mascotas para mostrar sus marcadores */}
           <Marker position={limaPosition}>
             <Popup>
-              ¡Hola! Estás en Lima. <br /> Aquí aparecerán tus mascotas.
+              ¡Bienvenido, {user?.username}! <br /> Aquí aparecerán tus mascotas.
             </Popup>
           </Marker>
         </MapContainer>
@@ -60,35 +105,19 @@ const Dashboard = () => {
 
       {/* Columna Derecha: Las Tarjetas de Información */}
       <div className="sidebar">
-        <div className="info-card">
-          <h3>Mascotas</h3>
-          <div className="info-card-content">
-            {mascotas.length > 0 ? (
-              <ul className="info-list">
-                {mascotas.map((mascota) => (
-                  <li key={mascota.id}>{mascota.nombre}</li>
-                ))}
-              </ul>
-            ) : (
-              <p>No se encuentran mascotas registradas.</p>
-            )}
-          </div>
-        </div>
+        <InfoList
+            title="Mascotas"
+            items={mascotas}
+            renderItem={(mascota) => <li key={mascota.id}>{mascota.name}</li>}
+            emptyMessage="No tienes mascotas registradas."
+        />
 
-        <div className="info-card">
-          <h3>Dispositivos</h3>
-          <div className="info-card-content">
-            {dispositivos.length > 0 ? (
-              <ul className="info-list">
-                {dispositivos.map((dispositivo) => (
-                  <li key={dispositivo.id}>{dispositivo.serialID}</li>
-                ))}
-              </ul>
-            ) : (
-              <p>No se encuentran dispositivos registrados.</p>
-            )}
-          </div>
-        </div>
+        <InfoList
+            title="Dispositivos"
+            items={dispositivos}
+            renderItem={(dispositivo) => <li key={dispositivo.id}>{dispositivo.serialNumber}</li>}
+            emptyMessage="No tienes dispositivos registrados."
+        />
       </div>
     </div>
   );
