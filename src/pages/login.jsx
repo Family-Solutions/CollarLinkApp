@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import authService from '../api/authService';
 import { useAuth } from '../context/AuthContext.jsx';
-import AuthLayout from '../components/AuthLayout';
+import AuthLayout from '../components/authLayout';
 
 const Login = () => {
   const [username, setUsername] = useState('');

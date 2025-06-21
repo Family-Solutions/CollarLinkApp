@@ -12,7 +12,7 @@ import { MapContainer, TileLayer, Marker, Popup, Circle } from 'react-leaflet'; 
 import 'leaflet/dist/leaflet.css';
 
 // Importamos el CSS del Dashboard
-import './Dashboard.css';
+import './dashboard.css';
 
 const Dashboard = () => {
   const { user, isAuthenticated } = useAuth();
