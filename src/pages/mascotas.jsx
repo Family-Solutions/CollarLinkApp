@@ -1,6 +1,6 @@
 // src/pages/Mascotas.jsx
 import React, { useState, useEffect, useCallback } from 'react';
-import { useAuth } from '../context/authContext';
+import { useAuth } from '../context/AuthContext';
 import petService from '../api/petService';
 import PetCard from '../components/petCard';
 import AddPetModal from '../components/addPetModal';

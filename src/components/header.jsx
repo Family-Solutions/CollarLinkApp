@@ -1,7 +1,7 @@
 // src/components/Header.jsx
 import React from 'react';
 import './Header.css';
-import { useAuth } from '../context/authContext';
+import { useAuth } from '../context/AuthContext';
 
 // Recibe la propiedad 'toggleSidebar'
 const Header = ({ toggleSidebar }) => {
