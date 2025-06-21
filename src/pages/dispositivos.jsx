@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext.jsx';
 import collarService from '../api/collarService';
 import CollarCard from '../components/collarCard';
 import AddCollarModal from '../components/addCollarModal';

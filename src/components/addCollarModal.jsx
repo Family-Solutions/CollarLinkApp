@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext.jsx';
 import collarService from '../api/collarService';
 import './addPetModal.css'; //vamos a reutilizar el CSS de AddPetModal para este modal
 
