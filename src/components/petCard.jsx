@@ -1,5 +1,5 @@
 import React from 'react';
-import './PetCard.css';
+import './petCard.css';
 import { FaPaw } from 'react-icons/fa';
 
 const PetCard = ({ pet }) => {

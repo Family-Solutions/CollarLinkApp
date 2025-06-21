@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/authContext';
 import petService from '../api/petService';
-import './AddPetModal.css';
+import './addPetModal.css';
 
 const AddPetModal = ({ isOpen, onClose, onPetAdded }) => {
   const { user } = useAuth();

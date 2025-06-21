@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/authContext';
 import collarService from '../api/collarService';
-import './AddPetModal.css'; //vamos a reutilizar el CSS de AddPetModal para este modal
+import './addPetModal.css'; //vamos a reutilizar el CSS de AddPetModal para este modal
 
 const AddCollarModal = ({ isOpen, onClose, onCollarAdded }) => {
   const { user } = useAuth();
