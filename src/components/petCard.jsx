@@ -1,10 +1,24 @@
 import React from 'react';
 import './petCard.css';
-import { FaPaw } from 'react-icons/fa';
+import { FaPaw, FaTimes } from 'react-icons/fa';
 
-const PetCard = ({ pet }) => {
+const PetCard = ({ pet, onDelete }) => {
+  const handleDelete = async () => {
+    if (window.confirm(`¿Estás seguro de que quieres eliminar a ${pet.name}?`)) {
+      try {
+        await onDelete(pet.id);
+      } catch (error) {
+        console.error('Error al eliminar mascota:', error);
+        alert('Error al eliminar la mascota. Inténtalo de nuevo.');
+      }
+    }
+  };
+
   return (
     <div className="pet-card">
+      <button className="pet-card-delete-btn" onClick={handleDelete} title="Eliminar mascota">
+        <FaTimes />
+      </button>
       <div className="pet-card-header">
         <FaPaw className="pet-card-icon" />
         <h3 className="pet-card-name">{pet.name}</h3>

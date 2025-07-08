@@ -63,6 +63,121 @@
   z-index: 0;
 }
 
+/* Estilos para el panel de notificaciones */
+.notifications-panel {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 350px;
+  width: 100%;
+}
+
+.notification {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  animation: slideInRight 0.3s ease-out;
+  border-left: 4px solid;
+}
+
+.notification-warning {
+  border-left-color: #f39c12;
+}
+
+.notification-alert {
+  border-left-color: #e74c3c;
+}
+
+.notification-success {
+  border-left-color: #27ae60;
+}
+
+.notification-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.notification-message {
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.notification-time {
+  font-size: 0.8em;
+  color: #666;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #999;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.notification-close:hover {
+  background-color: #f0f0f0;
+  color: #666;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Información de última actualización */
+.update-info {
+  background: #f8f9fa;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  text-align: center;
+  border-left: 3px solid #27ae60;
+}
+
+.update-info small {
+  color: #666;
+  font-weight: 500;
+}
+
+/* Responsive para notificaciones */
+@media (max-width: 768px) {
+  .notifications-panel {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+  
+  .notification {
+    padding: 12px;
+  }
+}
+
 /* --- Media Query para pantallas más grandes (Escritorio) --- */
 /* 'min-width: 768px' significa: "Aplica estos estilos si la pantalla
    tiene 768px de ancho o más". 768px es un punto de quiebre común para tablets. */
@@ -95,4 +210,33 @@
     .sidebar {
         flex: 1;
     }
+}
+
+/* Estilos para marcadores personalizados */
+.custom-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Indicador de actualización */
+.update-indicator {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(39, 174, 96, 0.9);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  font-weight: 500;
+  z-index: 1000;
+  animation: pulse 1.5s infinite;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+@keyframes pulse {
+  0% { opacity: 0.8; }
+  50% { opacity: 1; }
+  100% { opacity: 0.8; }
 }

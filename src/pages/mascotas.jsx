@@ -45,6 +45,18 @@ const Mascotas = () => {
     setPets(prevPets => [...prevPets, newPet]);
   };
 
+  // Función para manejar la eliminación de mascotas
+  const handlePetDelete = async (petId) => {
+    try {
+      await petService.deletePet(petId);
+      // Actualizar la lista local removiendo la mascota eliminada
+      setPets(prevPets => prevPets.filter(pet => pet.id !== petId));
+    } catch (error) {
+      console.error('Error deleting pet:', error);
+      throw error; // Re-lanzar el error para que el componente PetCard lo maneje
+    }
+  };
+
   if (isLoading) {
     return <div className="loading-container">Cargando tus mascotas...</div>;
   }
@@ -61,7 +73,7 @@ const Mascotas = () => {
         <div className="pets-grid">
           {pets.map(pet => (
             // Asumiendo que cada mascota tiene un 'id' único devuelto por el backend
-            <PetCard key={pet.id} pet={pet} />
+            <PetCard key={pet.id} pet={pet} onDelete={handlePetDelete} />
           ))}
         </div>
       ) : (
