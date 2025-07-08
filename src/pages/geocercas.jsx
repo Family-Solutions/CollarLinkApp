@@ -23,6 +23,7 @@ const GeoCercas = () => {
     radius: 500, // Radio inicial en metros
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [deletingGeofenceId, setDeletingGeofenceId] = useState(null);
   const limaPosition = [-12.046374, -77.042793];
 
   useEffect(() => {
@@ -57,8 +58,8 @@ const GeoCercas = () => {
 
     const geofenceData = {
       name: newGeofence.name,
-      latitude: newGeofence.latitude,
-      longitude: newGeofence.longitude,
+      latitude: newGeofence.longitude,
+      longitude: newGeofence.latitude,
       radius: parseFloat(newGeofence.radius),
       username: user.username,
     };
@@ -77,6 +78,24 @@ const GeoCercas = () => {
       setIsSubmitting(false);
     }
   };
+
+  const handleDeleteGeofence = async (geofenceId) => {
+    if (!window.confirm("¿Estás seguro de que quieres eliminar esta geocerca? Esta acción no se puede deshacer.")) {
+      return;
+    }
+
+    setDeletingGeofenceId(geofenceId);
+    try {
+      await geofenceService.deleteGeofence(geofenceId);
+      setExistingGeofences(prev => prev.filter(gf => gf.id !== geofenceId));
+      alert("Geocerca eliminada exitosamente");
+    } catch (err) {
+      console.error("Error deleting geofence:", err);
+      alert("No se pudo eliminar la geocerca. Inténtalo de nuevo.");
+    } finally {
+      setDeletingGeofenceId(null);
+    }
+  };
   
   const newGeofencePosition = useMemo(() => {
     return newGeofence.latitude ? [newGeofence.latitude, newGeofence.longitude] : null;
@@ -85,73 +104,126 @@ const GeoCercas = () => {
 
   return (
     <div className="geofence-page-container">
-      <div className="geofence-map-container">
-        <MapContainer center={limaPosition} zoom={13} scrollWheelZoom={true}>
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          />
-          <MapEventsHandler onMapClick={handleMapClick} />
-          
-          {/* Mostrar geocercas existentes */}
-          {existingGeofences.map(gf => (
-            <Circle
-              key={gf.id}
-              center={[gf.longitude, gf.latitude]}
-              radius={gf.radius}
-              pathOptions={{ color: 'blue', fillColor: 'blue' }}
+      <div className="geofence-content-layout">
+        {/* Mapa - Izquierda */}
+        <div className="geofence-map-container">
+          <MapContainer center={limaPosition} zoom={13} scrollWheelZoom={true}>
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             />
-          ))}
-
-          {/* Mostrar la nueva geocerca que se está creando */}
-          {newGeofencePosition && (
-            <>
-              <Marker position={newGeofencePosition}></Marker>
+            <MapEventsHandler onMapClick={handleMapClick} />
+            
+            {/* Mostrar geocercas existentes */}
+            {existingGeofences.map(gf => (
               <Circle
-                center={newGeofencePosition}
-                radius={parseFloat(newGeofence.radius)}
-                pathOptions={{ color: 'green', fillColor: 'green' }}
+                key={gf.id}
+                center={[gf.latitude, gf.longitude]}
+                radius={gf.radius}
+                pathOptions={{ 
+                  color: 'blue', 
+                  fillColor: 'blue', 
+                  fillOpacity: 0.2,
+                  weight: 2 
+                }}
               />
-            </>
-          )}
-        </MapContainer>
-      </div>
+            ))}
 
-      <div className="geofence-form-container">
-        <h2>Crear Nueva Geocerca</h2>
-        <p>1. Haz clic en el mapa para ubicar el centro.</p>
-        <p>2. Completa los datos y guarda.</p>
-        <form onSubmit={handleSubmit}>
-          <div className="form-field">
-            <label htmlFor="name">Nombre de la Geocerca</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={newGeofence.name}
-              onChange={handleFormChange}
-              placeholder="Ej: Casa, Parque del barrio"
-              required
-            />
-          </div>
-          <div className="form-field">
-            <label htmlFor="radius">Radio (en metros)</label>
-            <input
-              type="range"
-              id="radius"
-              name="radius"
-              min="50"
-              max="2000"
-              step="50"
-              value={newGeofence.radius}
-              onChange={handleFormChange}
-            />
-            <div className="radius-display">{newGeofence.radius} metros</div>
-          </div>
-          <button type="submit" className="submit-btn" disabled={isSubmitting || !newGeofence.latitude}>
-            {isSubmitting ? 'Guardando...' : 'Guardar Geocerca'}
-          </button>
-        </form>
+            {/* Mostrar la nueva geocerca que se está creando */}
+            {newGeofencePosition && (
+              <>
+                <Marker position={newGeofencePosition}></Marker>
+                <Circle
+                  center={newGeofencePosition}
+                  radius={parseFloat(newGeofence.radius)}
+                  pathOptions={{ 
+                    color: 'green', 
+                    fillColor: 'green', 
+                    fillOpacity: 0.3,
+                    weight: 2 
+                  }}
+                />
+              </>
+            )}
+          </MapContainer>
+        </div>
+
+        {/* Formulario de crear nueva geocerca - Centro */}
+        <div className="geofence-form-container">
+          <h2>Crear Nueva Geocerca</h2>
+          <p>1. Haz clic en el mapa para ubicar el centro.</p>
+          <p>2. Completa los datos y guarda.</p>
+          <form onSubmit={handleSubmit}>
+            <div className="form-field">
+              <label htmlFor="name">Nombre de la Geocerca</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={newGeofence.name}
+                onChange={handleFormChange}
+                placeholder="Ej: Casa, Parque del barrio"
+                required
+              />
+            </div>
+            <div className="form-field">
+              <label htmlFor="radius">Radio (en metros)</label>
+              <input
+                type="range"
+                id="radius"
+                name="radius"
+                min="50"
+                max="2000"
+                step="50"
+                value={newGeofence.radius}
+                onChange={handleFormChange}
+              />
+              <div className="radius-display">{newGeofence.radius} metros</div>
+            </div>
+            <button type="submit" className="submit-btn" disabled={isSubmitting || !newGeofence.latitude}>
+              {isSubmitting ? 'Guardando...' : 'Guardar Geocerca'}
+            </button>
+          </form>
+        </div>
+
+        {/* Lista de geocercas existentes - Derecha */}
+        <div className="existing-geofences-container">
+          <h2>Geocercas Existentes</h2>
+          {existingGeofences.length > 0 ? (
+            <div className="existing-geofences">
+              <div className="geofences-count">
+                Total: {existingGeofences.length} geocerca{existingGeofences.length > 1 ? 's' : ''}
+              </div>
+              <div className="geofences-list">
+                {existingGeofences.map(gf => (
+                  <div key={gf.id} className="geofence-item">
+                    <div className="geofence-info">
+                      <strong>{gf.name}</strong>
+                      <span className="geofence-details">
+                        Radio: {gf.radius}m<br />
+                        Lat: {gf.latitude?.toFixed(4)}<br />
+                        Lng: {gf.longitude?.toFixed(4)}
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => handleDeleteGeofence(gf.id)}
+                      disabled={deletingGeofenceId === gf.id}
+                      className="delete-btn"
+                      title="Eliminar geocerca"
+                    >
+                      {deletingGeofenceId === gf.id ? '🔄' : '🗑️'}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="no-geofences">
+              <p>No tienes geocercas configuradas</p>
+              <p>👈 Usa el formulario para crear tu primera geocerca</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
