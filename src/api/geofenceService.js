@@ -1,4 +1,3 @@
-// src/api/geofenceService.js
 import apiClient from './axiosConfig';
 
 const getGeofencesByUsername = (username) => {
@@ -9,7 +8,7 @@ const createGeofence = (geofenceData) => {
   return apiClient.post('/geofence', geofenceData);
 };
 
-// para mas tarde   
+// para mas tarde
 // const deleteGeofence = (id) => {
 //   return apiClient.delete(`/geofence/${id}`);
 // };

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const apiClient = axios.create({
   // Asegúrate de que este sea el puerto correcto de tu backend Spring Boot
-  baseURL: 'http://localhost:8080/api/v1', 
+  baseURL: 'https://collar-link-production.up.railway.app/api/v1', 
   headers: {
     'Content-Type': 'application/json',
   },

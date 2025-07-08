@@ -1,7 +1,6 @@
-// src/components/MainLayout.jsx
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import Header from './Header';
+import Header from './header';
 import Sidebar from './sidebar';
 
 const MainLayout = () => {

@@ -1,11 +1,10 @@
-// src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext.jsx';
 
 import MainLayout from './components/mainlayout';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import Login from './pages/login';
+import Register from './pages/register';
 import Dashboard from './pages/dashboard';
 import Mascotas from './pages/mascotas';
 import Dispositivos from './pages/dispositivos';

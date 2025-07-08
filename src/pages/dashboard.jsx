@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext.jsx';
 
 // Importamos los servicios que necesitamos
 import petService from '../api/petService';
@@ -12,7 +12,7 @@ import { MapContainer, TileLayer, Marker, Popup, Circle } from 'react-leaflet'; 
 import 'leaflet/dist/leaflet.css';
 
 // Importamos el CSS del Dashboard
-import './Dashboard.css';
+import './dashboard.css';
 
 const Dashboard = () => {
   const { user, isAuthenticated } = useAuth();

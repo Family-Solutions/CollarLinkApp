@@ -1,7 +1,6 @@
-// src/components/Sidebar.jsx
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import './Sidebar.css';
+import './sidebar.css';
 
 // Importando los iconos que usaremos
 import { FaMapMarkedAlt, FaPaw} from 'react-icons/fa';

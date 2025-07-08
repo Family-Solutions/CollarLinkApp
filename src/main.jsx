@@ -1,10 +1,9 @@
-// src/main.jsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
-import './index.css'; // Estilos globales
-import './components/AuthLayout.css'; // Estilos de los formularios
-import './components/Header.css'; // Estilos del header
+import './index.css';
+import './components/authLayout.css'; 
+import './components/header.css'; 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
